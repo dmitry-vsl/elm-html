@@ -15,8 +15,7 @@ Elm.Native.Html.make = function(elm) {
     if ('values' in Elm.Native.Html)
         return elm.Native.Html.values = Elm.Native.Html.values;
 
-    // This manages event listeners. Somehow...
-    Delegator();
+    initDelegator();
 
     var RenderUtils = ElmRuntime.use(ElmRuntime.Render.Utils);
     var newElement = Elm.Graphics.Element.make(elm).newElement;
@@ -24,6 +23,12 @@ Elm.Native.Html.make = function(elm) {
     var List = Elm.Native.List.make(elm);
     var Maybe = Elm.Maybe.make(elm);
     var eq = Elm.Native.Utils.make(elm).eq;
+
+    function initDelegator(){
+      // This manages event listeners. Somehow...
+      var delegator = Delegator();
+      delegator.listenTo('mousemove');
+    }
 
     function node(name, attributes, properties, contents) {
         return eventNode(name, attributes, properties, List.Nil, contents);
